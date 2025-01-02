@@ -1,5 +1,5 @@
 import { reactive, toRefs } from "vue";
-import type { PagingDataSourceState } from "@unpaged/core/src/PagingDataSourceState";
+import type { PagingDataSourceState } from "@unpaged/core";
 
 export function usePagingDataSourceState<TKey, TData, TMetadata>() {
   return toRefs(

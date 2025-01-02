@@ -1,5 +1,5 @@
 import { computed, toValue, watch, type MaybeRefOrGetter, type ToRefs } from "vue"
-import type { PagingDataSourceState } from "@unpaged/core/dist/PagingDataSourceState"
+import type { PagingDataSourceState } from "@unpaged/core"
 import { VuePagingDataSource, type VuePagingDataSourceActions } from "./VuePagingDataSource"
 
 export function usePagingDataSource<TKey, TData, TMetadata>(

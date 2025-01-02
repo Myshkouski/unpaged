@@ -1,8 +1,8 @@
 import type { ToRefs } from "vue";
-import type { PagingDataSourceActions } from "@unpaged/core/src/PagingDataSourceActions";
-import type { PagesMap } from "@unpaged/core/src/PagesMap";
-import type { PagingDataSourceState } from "@unpaged/core/src/PagingDataSourceState";
-import { AbstractPagingDataSource } from "@unpaged/core/src/AbstractPagingDataSource";
+import type { PagingDataSourceActions } from "@unpaged/core";
+import type { PagesMap } from "@unpaged/core";
+import type { PagingDataSourceState } from "@unpaged/core";
+import { AbstractPagingDataSource } from "@unpaged/core";
 
 export class VuePagingDataSource<TKey, TData, TMetadata>
 extends AbstractPagingDataSource<TKey, TData, TMetadata> {

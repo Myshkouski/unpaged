@@ -1,4 +1,4 @@
-import type { PagesMap } from "@unpaged/core/src/PagesMap";
+import type { PagesMap } from "@unpaged/core";
 import { shallowRef } from "vue";
 
 export function usePages<TKey, TData, TMetadata>() {
