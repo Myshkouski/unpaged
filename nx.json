@@ -1,0 +1,27 @@
+{
+  "targetDefaults": {
+    "dev": {
+      "dependsOn": []
+    },
+    "dev:prepare": {
+      "dependsOn": []
+    },
+    "build": {
+      "cache": true,
+      "dependsOn": [],
+      "outputs": [
+        "{projectRoot}/packages/*/dist"
+      ]
+    },
+    "generate": {
+      "dependsOn": []
+    },
+    "preview": {
+      "dependsOn": []
+    },
+    "lint": {
+      "cache": true,
+      "dependsOn": []
+    }
+  }
+}
