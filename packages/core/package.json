@@ -1,13 +1,14 @@
 {
   "name": "@unpaged/core",
-  "type": "module",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "version": "0.0.2",
   "devDependencies": {
+    "tsup": "^8.3.5",
     "typescript": "^5.7.2"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsup"
   },
   "publishConfig": {
     "access": "public"
