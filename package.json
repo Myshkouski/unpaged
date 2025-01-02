@@ -8,6 +8,8 @@
   },
   "scripts": {
     "build": "lerna run build",
-    "publish": "lerna publish"
+    "publish:from-git": "lerna publish from-git --yes",
+    "version:release": "lerna version --conventional-commits --conventional-graduate --yes",
+    "version:beta": "lerna version --conventional-commits --conventional-prerelease --preid beta --yes"
   }
 }
