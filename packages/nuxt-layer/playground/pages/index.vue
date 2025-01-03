@@ -1,5 +1,4 @@
 <template>
-
   <UContainer class="min-h-screen flex flex-col py-8 gap-4">
     <div class="flex-grow">
       <UTable :loading="pending" :columns="columns" :rows="rows" />
@@ -78,6 +77,14 @@ const columns = computed(() => {
 })
 
 const currentPage = useState(() => 1)
+const { history: currentPageHistory } = useRefHistory(currentPage, {
+  capacity: 5
+})
+const recentKeys = computed(() => {
+  return currentPageHistory.value.map(record => {
+    return record.snapshot
+  })
+})
 
 const currentPagePagedData = computed(() => {
   return pagedData.value.filter(([key]) => {
@@ -114,12 +121,16 @@ onMounted(async () => {
     load: loadPage,
     invalidate: invalidatePage,
     preload(key) {
+      const recentKeysValue = recentKeys.value
+      let additionalKeys: number[] = []
       if (key > 1) {
-        return [key - 1, key + 1]
+        additionalKeys = [key - 1, key + 1]
       }
       if (key > 0) {
-        return [key + 1]
+        additionalKeys = [key + 1]
       }
+      const allUniqueKeys = new Set([...recentKeysValue, ...additionalKeys])
+      return [...allUniqueKeys.values()]
     },
     unload(key, currentKey) {
       return Math.abs(key - currentKey) > 1
