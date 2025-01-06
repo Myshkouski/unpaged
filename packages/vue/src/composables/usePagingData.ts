@@ -1,6 +1,6 @@
-import { ref, type Ref, computed } from "vue";
-import { usePagingDataSource } from "./usePagingDataSource";
-import type { UsePagingDataSourceHooks } from "./internal/usePagingDataSource";
+import { ref, type Ref, computed } from "vue"
+import { usePagingDataSource } from "./usePagingDataSource"
+import type { UsePagingDataSourceHooks } from "./internal/usePagingDataSource"
 
 export function usePagingData<TKey, TData, TMetadata>(options: UsePagingDataOptions<TKey, TData, TMetadata>) {
   const keys = options.keys ?? (ref(new Set()) as Ref<Set<TKey>>)

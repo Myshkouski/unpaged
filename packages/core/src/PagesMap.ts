@@ -1,3 +1,3 @@
-import type { Page } from "./Page";
+import type { Page } from "./Page"
 
-export type PagesMap<TKey, TData, TMetadata> = Map<TKey, Page<TData, TMetadata>>;
+export type PagesMap<TKey, TData, TMetadata> = Map<TKey, Page<TData, TMetadata>>

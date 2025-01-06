@@ -1,5 +1,5 @@
-import { reactive, toRefs } from "vue";
-import type { PagingDataSourceState } from "@unpaged/core";
+import { reactive, toRefs } from "vue"
+import type { PagingDataSourceState } from "@unpaged/core"
 
 export function usePagingDataSourceState<TKey, TData, TMetadata>() {
   return toRefs(
@@ -7,5 +7,5 @@ export function usePagingDataSourceState<TKey, TData, TMetadata>() {
       isPending: false,
       pages: new Map(),
     }) satisfies PagingDataSourceState<TKey, TData, TMetadata>
-  );
+  )
 }

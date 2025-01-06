@@ -1,6 +1,6 @@
-import type { Page } from "./Page";
-import type { PagesMap } from "./PagesMap";
-import type { PagingDataSource } from "./PagingDataSource";
+import type { Page } from "./Page"
+import type { PagesMap } from "./PagesMap"
+import type { PagingDataSource } from "./PagingDataSource"
 
 export abstract class AbstractPagingDataSource<TKey, TData, TMetadata>
 implements PagingDataSource<TKey, TData, TMetadata> {
@@ -12,48 +12,48 @@ implements PagingDataSource<TKey, TData, TMetadata> {
 
   private promise: Promise<PagesMap<TKey, TData, TMetadata>> = Promise.resolve(new Map())
 
-  abstract load(key: TKey): Promise<TData>;
+  abstract load(key: TKey): Promise<TData>
   abstract getPageMetadata(key: TKey, data: TData): TMetadata
 
   private async tryLoadData(key: TKey): Promise<[TKey, Page<TData, TMetadata>]> {
-    let page: Page<TData, TMetadata>;
+    let page: Page<TData, TMetadata>
 
     try {
-      const data = await this.load(key);
-      const metadata = this.getPageMetadata(key, data);
-      page = { data, metadata };
+      const data = await this.load(key)
+      const metadata = this.getPageMetadata(key, data)
+      page = { data, metadata }
     } catch (e) {
-      page = { error: e };
+      page = { error: e }
     }
 
-    return [key, page];
+    return [key, page]
   }
 
   private tryGetCached(key: TKey): [TKey, Page<TData, TMetadata>] | undefined {
     if (this.pages.has(key)) {
-      return [key, this.pages.get(key) as Page<TData, TMetadata>];
+      return [key, this.pages.get(key) as Page<TData, TMetadata>]
     }
   }
 
   async refresh(keys: TKey[]) {
     await this.promise
 
-    this.isPending = true;
+    this.isPending = true
 
     try {
       const promises = keys.map(key => {
         return Promise.resolve(
           this.tryGetCached(key) ?? this.tryLoadData(key)
-        );
-      });
+        )
+      })
 
-      this.promise = Promise.all(promises).then(entries => new Map(entries));
+      this.promise = Promise.all(promises).then(entries => new Map(entries))
 
-      this.pages = await this.promise;
+      this.pages = await this.promise
     } catch (e) {
       //
     }
 
-    this.isPending = false;
+    this.isPending = false
   }
 }
