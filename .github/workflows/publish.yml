@@ -4,6 +4,7 @@ on:
     types:
       - closed
     branches:
+      - next
       - main
 
 jobs:
@@ -26,7 +27,17 @@ jobs:
     - name: Build packages
       run: bun run build
 
-    - name: Publish
+    - name: Version and publish
       env:
         BUN_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: bun run publish:from-git
+      run: |
+        git config user.name "${{ github.actor }}"
+        git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+
+        if [ ${{ github.base_ref }} = main ]; then
+          bun run version:release
+        else
+          bun run version:beta
+        fi
+
+        bun run publish:from-git
