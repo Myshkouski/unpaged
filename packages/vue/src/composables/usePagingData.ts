@@ -8,9 +8,9 @@ export function usePagingData<TKey, TData, TMetadata>(options: UsePagingDataOpti
     return [...keys.value]
   })
 
-  const { pages, pending } = usePagingDataSource<TKey, TData, TMetadata>({
+  const { pages, pending, refresh: _refresh } = usePagingDataSource<TKey, TData, TMetadata>({
     keys: keysArray,
-    load: options.load,
+    page: options.page,
     metadata: options.metadata
   })
 
@@ -18,6 +18,10 @@ export function usePagingData<TKey, TData, TMetadata>(options: UsePagingDataOpti
     for (const k of values) {
       keys.value.add(k)
     }
+  }
+
+  async function refresh(...values: TKey[]) {
+    await _refresh(values)
   }
 
   function invalidate(...values: TKey[]) {
@@ -28,6 +32,7 @@ export function usePagingData<TKey, TData, TMetadata>(options: UsePagingDataOpti
 
   return {
     load,
+    refresh,
     invalidate,
     data: computed(() => pages.value),
     pending,

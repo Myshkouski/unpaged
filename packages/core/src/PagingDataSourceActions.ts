@@ -1,5 +1,6 @@
 export interface PagingDataSourceActions<TKey, TData, TMetadata> {
-  load(key: TKey): Promise<TData>
+  load(keys: TKey[]): Promise<void>
   refresh(keys: TKey[]): Promise<void>
+  loadPage(key: TKey): Promise<TData>
   getPageMetadata(key: TKey, data: TData): TMetadata
 }

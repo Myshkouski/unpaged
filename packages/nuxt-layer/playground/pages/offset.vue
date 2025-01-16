@@ -3,10 +3,11 @@
   <div class="flex-grow flex flex-col space-y-4 justify-between">
 
     <div class="flex-grow">
-      <UTable :loading="pending" :columns="columns" :rows="rows" />
+      <UTable :loading="isPagesPending" :columns="columns" :rows="rows" />
     </div>
 
-    <div class="px-4 flex justify-center">
+    <div class="px-4 flex justify-center gap-4">
+      <UButton variant="solid" :loading="isPagesPending" @click="tryRefreshCurrentPage()">Refresh page</UButton>
       <UPagination v-model="currentPage" :page-count="pageSize" :total="total" show-first show-last />
     </div>
 
@@ -35,9 +36,9 @@ const keys = useState(() => {
   return new Set<number>()
 })
 
-const { data: pages, load: loadPage, invalidate: invalidatePage, pending } = usePagingData({
+const { data: pages, load: loadPage, refresh: refreshPage, invalidate: invalidatePage, pending: isPagesPending } = usePagingData({
   keys,
-  async load(key) {
+  async page(key) {
     return await loadData(key)
   },
   metadata(key, page) {
@@ -79,6 +80,9 @@ const columns = computed(() => {
 })
 
 const currentPage = useState(() => 1)
+function tryRefreshCurrentPage() {
+  refreshPage(currentPage.value).catch(console.error)
+}
 const { history: currentPageHistory } = useRefHistory(currentPage, {
   capacity: 5
 })
@@ -116,28 +120,26 @@ const total = computed(() => {
   return total
 })
 
-onMounted(async () => {
-  usePageLoader({
-    page: currentPage,
-    data: pages,
-    load: loadPage,
-    invalidate: invalidatePage,
-    preload(key) {
-      const recentKeysValue = recentKeys.value
-      let additionalKeys: number[] = []
-      if (key > 1) {
-        additionalKeys = [key - 1, key + 1]
-      }
-      if (key > 0) {
-        additionalKeys = [key + 1]
-      }
-      const allUniqueKeys = new Set([...recentKeysValue, ...additionalKeys])
-      return [...allUniqueKeys.values()]
-    },
-    unload(key, currentKey) {
-      return Math.abs(key - currentKey) > 1
+useOffsetPaging({
+  page: currentPage,
+  data: pages,
+  load: loadPage,
+  invalidate: invalidatePage,
+  preload(key) {
+    const recentKeysValue = recentKeys.value
+    let additionalKeys: number[] = []
+    if (key > 1) {
+      additionalKeys = [key - 1, key + 1]
     }
-  })
+    if (key > 0) {
+      additionalKeys = [key + 1]
+    }
+    const allUniqueKeys = new Set([...recentKeysValue, ...additionalKeys])
+    return [...allUniqueKeys.values()]
+  },
+  unload(key, currentKey) {
+    return Math.abs(key - currentKey) > 1
+  }
 })
 
 </script>

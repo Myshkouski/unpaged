@@ -1,7 +1,7 @@
 import { watch, type Ref } from "vue"
 import type { usePagingData } from "./usePagingData"
 
-export function usePageLoader<TKey extends number, TData, TMetadata>(options: UsePageLoaderOptions<TKey, TData, TMetadata>) {
+export function useOffsetPaging<TKey extends number, TData, TMetadata>(options: UsePageLoaderOptions<TKey, TData, TMetadata>) {
   const { page, load, data, invalidate, preload, unload } = options
 
   watch(page, async page => {

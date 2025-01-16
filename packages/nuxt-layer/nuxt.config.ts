@@ -10,7 +10,7 @@ export default defineNuxtConfig({
           "usePages",
           "usePagingData",
           "usePagingDataSource",
-          "usePageLoader",
+          "useOffsetPaging",
         ]
       }
     ]

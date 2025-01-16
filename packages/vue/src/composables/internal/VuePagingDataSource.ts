@@ -26,8 +26,8 @@ extends AbstractPagingDataSource<TKey, TData, TMetadata> {
     this.options.pages.value = value
   }
 
-  override async load(key: TKey): Promise<TData> {
-    return await this.options.load(key)
+  async loadPage(key: TKey): Promise<TData> {
+    return await this.options.loadPage(key)
   }
 
   override getPageMetadata(key: TKey, data: TData): TMetadata {
@@ -35,7 +35,7 @@ extends AbstractPagingDataSource<TKey, TData, TMetadata> {
   }
 }
 
-export type VuePagingDataSourceActions<TKey, TData, TMetadata> = Omit<PagingDataSourceActions<TKey, TData, TMetadata>, "refresh" >
+export type VuePagingDataSourceActions<TKey, TData, TMetadata> = Omit<PagingDataSourceActions<TKey, TData, TMetadata>, "load" | "refresh" >
 
 export type VuePagingDataSourceOptions<TKey, TData, TMetadata> =
   VuePagingDataSourceActions<TKey, TData, TMetadata> &

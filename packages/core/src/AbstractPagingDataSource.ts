@@ -12,14 +12,14 @@ implements PagingDataSource<TKey, TData, TMetadata> {
 
   private promise: Promise<PagesMap<TKey, TData, TMetadata>> = Promise.resolve(new Map())
 
-  abstract load(key: TKey): Promise<TData>
+  abstract loadPage(key: TKey): Promise<TData>
   abstract getPageMetadata(key: TKey, data: TData): TMetadata
 
   private async tryLoadData(key: TKey): Promise<[TKey, Page<TData, TMetadata>]> {
     let page: Page<TData, TMetadata>
 
     try {
-      const data = await this.load(key)
+      const data = await this.loadPage(key)
       const metadata = this.getPageMetadata(key, data)
       page = { data, metadata }
     } catch (e) {
@@ -35,7 +35,15 @@ implements PagingDataSource<TKey, TData, TMetadata> {
     }
   }
 
-  async refresh(keys: TKey[]) {
+  private async tryGetCachedOrLoad(key: TKey): Promise<[TKey, Page<TData, TMetadata>]> {
+    let page = this.tryGetCached(key)
+    if (!page) {
+      page = await this.tryLoadData(key)
+    }
+    return page
+  }
+
+  private async tryLoad(keys: TKey[], skipCache: boolean = false) {
     await this.promise
 
     this.isPending = true
@@ -43,7 +51,7 @@ implements PagingDataSource<TKey, TData, TMetadata> {
     try {
       const promises = keys.map(key => {
         return Promise.resolve(
-          this.tryGetCached(key) ?? this.tryLoadData(key)
+          true === skipCache ? this.tryLoadData(key) : this.tryGetCachedOrLoad(key)
         )
       })
 
@@ -55,5 +63,13 @@ implements PagingDataSource<TKey, TData, TMetadata> {
     }
 
     this.isPending = false
+  }
+
+  async load(keys: TKey[]): Promise<void> {
+    await this.tryLoad(keys)
+  }
+
+  async refresh(keys: TKey[]): Promise<void> {
+    await this.tryLoad(keys, true)
   }
 }
