@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.6](https://github.com/Myshkouski/unpaged/compare/v0.0.5...v0.0.6) (2025-01-20)
+
+
+### Bug Fixes
+
+* refresh only loaded keys ([9974e91](https://github.com/Myshkouski/unpaged/commit/9974e9137fc88edcb31a0627a08e5b286cf22b6c))
+
+
+
+
+
 ## [0.0.4](https://github.com/Myshkouski/unpaged/compare/v0.1.0...v0.0.4) (2025-01-07)
 
 

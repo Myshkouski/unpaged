@@ -1,7 +1,7 @@
 {
   "name": "@unpaged/nuxt-layer",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "./nuxt.config.ts",
   "scripts": {
     "postinstall": "nuxt prepare",
@@ -12,7 +12,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@unpaged/vue": "^0.0.5",
+    "@unpaged/vue": "^0.0.6",
     "nuxt": "^3.15.1"
   },
   "devDependencies": {
