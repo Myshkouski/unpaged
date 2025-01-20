@@ -70,6 +70,9 @@ implements PagingDataSource<TKey, TData, TMetadata> {
   }
 
   async refresh(keys: TKey[]): Promise<void> {
-    await this.tryLoad(keys, true)
+    const loadedKeys = keys.filter(key => {
+      return this.pages.has(key)
+    })
+    await this.tryLoad(loadedKeys, true)
   }
 }
