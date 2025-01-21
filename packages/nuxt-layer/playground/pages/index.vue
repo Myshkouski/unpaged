@@ -1,16 +1,5 @@
-<template>
+<script setup lang="ts">
 
-  <div>
-    <div>
-      <NuxtLink to="/offset">
-        <span>Offset</span>
-      </NuxtLink>
-    <div>
-    </div>
-      <NuxtLink to="/cursor">
-        <span>Cursor</span>
-      </NuxtLink>
-    </div>
-  </div>
+await navigateTo({ name: "offset" })
 
-</template>
+</script>
