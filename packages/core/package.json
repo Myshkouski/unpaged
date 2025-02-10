@@ -2,7 +2,7 @@
   "name": "@unpaged/core",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "devDependencies": {
     "tsup": "^8.3.5",
     "typescript": "^5.7.2"
