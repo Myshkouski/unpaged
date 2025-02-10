@@ -8,7 +8,7 @@ export function usePagingData<TKey, TData, TMetadata>(options: UsePagingDataOpti
     return [...keys.value]
   })
 
-  const { pages, pending, refresh: _refresh } = usePagingDataSource<TKey, TData, TMetadata>({
+  const { pages, pending, refresh: _refresh, invalidate: _invalidate } = usePagingDataSource<TKey, TData, TMetadata>({
     keys: keysArray,
     page: options.page,
     metadata: options.metadata
@@ -26,7 +26,7 @@ export function usePagingData<TKey, TData, TMetadata>(options: UsePagingDataOpti
 
   function invalidate(...values: TKey[]) {
     for (const k of values) {
-      keys.value.delete(k)
+      pages.value.delete(k)
     }
   }
 
