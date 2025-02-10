@@ -127,13 +127,15 @@ function onBackToTopClick() {
 }
 
 async function invalidateAllAndRefresh() {
-  // invalidatePage(...keys.value)
+  invalidatePage(...keys.value)
+
   keys.value = new Set(initialKeys)
-  await refreshPage(null)
+  await refreshPage(...keys.value)
 }
 
 function onRefreshClick() {
-  invalidateAllAndRefresh().catch(console.error)
+  // invalidateAllAndRefresh().catch(console.error)
+  refreshPage(...keys.value).catch(console.error)
 }
 
 </script>
