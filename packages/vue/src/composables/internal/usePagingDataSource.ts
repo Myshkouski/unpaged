@@ -23,12 +23,6 @@ export function usePagingDataSource<TKey, TData, TMetadata>(
     immediate: true
   })
 
-  function invalidate(values: TKey[]) {
-    for (const k of values) {
-      state.pages.value.delete(k)
-    }
-  }
-
   return {
     pages: computed(() => state.pages.value),
     pending: computed(() => state.isPending.value),
@@ -38,7 +32,9 @@ export function usePagingDataSource<TKey, TData, TMetadata>(
     async refresh(keys: TKey[]) {
       await datasource.refresh(keys)
     },
-    invalidate,
+    invalidate(keys: TKey[]) {
+      datasource.invalidate(keys)
+    },
   }
 }
 

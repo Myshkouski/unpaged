@@ -35,7 +35,7 @@ extends AbstractPagingDataSource<TKey, TData, TMetadata> {
   }
 }
 
-export type VuePagingDataSourceActions<TKey, TData, TMetadata> = Omit<PagingDataSourceActions<TKey, TData, TMetadata>, "load" | "refresh" >
+export type VuePagingDataSourceActions<TKey, TData, TMetadata> = Omit<PagingDataSourceActions<TKey, TData, TMetadata>, "load" | "refresh" | "invalidate" >
 
 export type VuePagingDataSourceOptions<TKey, TData, TMetadata> =
   VuePagingDataSourceActions<TKey, TData, TMetadata> &

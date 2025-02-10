@@ -89,4 +89,10 @@ implements PagingDataSource<TKey, TData, TMetadata> {
       clearState: false
     })
   }
+
+  invalidate(keys: TKey[]) {
+    for (const key of keys) {
+      this.pages.delete(key)
+    }
+  }
 }
