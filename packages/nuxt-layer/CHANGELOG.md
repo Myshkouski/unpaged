@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0-beta.0](https://github.com/Myshkouski/unpaged/compare/v0.0.6...v0.2.0-beta.0) (2025-02-10)
+
+
+### Bug Fixes
+
+* playground improvements ([4311b48](https://github.com/Myshkouski/unpaged/commit/4311b4858f61512014adb5265f389a341de72abe))
+
+
+### Features
+
+* redirect to offset by default ([65c904a](https://github.com/Myshkouski/unpaged/commit/65c904a71fe9c1311772cb5e5e72aefcb0ea1a27))
+* update playground ([8f7e914](https://github.com/Myshkouski/unpaged/commit/8f7e9142cc1ef394e5bd1f7d638c504ea680bac8))
+
+
+
+
+
 # [0.1.0](https://github.com/Myshkouski/unpaged/compare/v0.0.6...v0.1.0) (2025-02-10)
 
 
