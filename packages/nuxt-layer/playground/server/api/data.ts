@@ -5,7 +5,7 @@ const querySchema = z.object({
   size: z.coerce.number(),
 }).or(
   z.object({
-    id: z.coerce.number().optional(),
+    afterId: z.coerce.number().optional(),
     size: z.coerce.number(),
   })
 )
@@ -15,6 +15,6 @@ export default defineEventHandler(async (event) => {
   if ("page" in queryParams) {
     return getDataByPage(queryParams.page, queryParams.size)
   } else {
-    return getDataFromId(queryParams.id, queryParams.size)
+    return getDataFromId(queryParams.afterId, queryParams.size)
   }
 })

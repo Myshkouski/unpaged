@@ -29,10 +29,10 @@ import { promiseTimeout } from "@vueuse/core"
 
 const pageSize = 10
 
-async function loadData(id: number | null) {
+async function loadData(afterId: number | null) {
   await promiseTimeout(1000)
   const query = {
-    id: id || undefined,
+    afterId: afterId || undefined,
     size: pageSize
   }
   const data = await $fetch("/api/data", { query })

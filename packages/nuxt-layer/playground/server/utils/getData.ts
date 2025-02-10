@@ -22,11 +22,14 @@ export function getDataByPage(page: number, pageSize: number): DataSlice<Data[]>
   return getDataSlice(start, pageSize)
 }
 
-export function getDataFromId(id: number | null | undefined, size: number): DataSlice<Data[]> {
-  const start = id && (id > 0)
-    ? mockData.findIndex(data => {
-        return data.id === id
-      })
+export function getDataFromId(afterId: number | null | undefined, size: number): DataSlice<Data[]> {
+  const start = afterId && (afterId > 0)
+    ? Math.max(
+        1 + mockData.findIndex(data => {
+          return data.id === afterId
+        }),
+        0
+      )
     : 0
 
   return getDataSlice(start, size)
