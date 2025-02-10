@@ -6,11 +6,28 @@ export type DataSlice<T> = {
   total: number
 }
 
-export function getData(start: number, size: number): DataSlice<Data[]> {
+function getDataSlice(start: number, size: number): DataSlice<Data[]> {
   const data = mockData.slice(start, start + size)
 
   return {
     data,
     total: mockData.length
   }
+}
+
+export function getDataByPage(page: number, pageSize: number): DataSlice<Data[]> {
+  const start = page > 1
+    ? (page - 1) * pageSize
+    : 0
+  return getDataSlice(start, pageSize)
+}
+
+export function getDataFromId(id: number | null | undefined, size: number): DataSlice<Data[]> {
+  const start = id && (id > 0)
+    ? mockData.findIndex(data => {
+        return data.id === id
+      })
+    : 0
+
+  return getDataSlice(start, size)
 }

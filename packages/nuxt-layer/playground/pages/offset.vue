@@ -23,12 +23,13 @@ import { hasData } from "@unpaged/core"
 const pageSize = 10
 
 async function loadData(page: number) {
-  await promiseTimeout(1000)
   const query = {
-    start: (page - 1) * pageSize,
+    page,
     size: pageSize
   }
   const data = await $fetch("/api/data", { query })
+  // Emulate loading
+  await promiseTimeout(1000)
   return data
 }
 
@@ -46,38 +47,12 @@ const { data: pages, load: loadPage, refresh: refreshPage, invalidate: invalidat
   }
 })
 
-const pagedData = computed(() => {
-  return [...pages.value.entries()]
-})
+const rows = usePagingDataRows(
+  useKeysFilter(pages, (key) => key === currentPage.value),
+  data => data.data
+)
 
-function keyToLabel(value: string) {
-  if (value === "id") {
-    return value.toUpperCase()
-  }
-  return value.replace("_", " ")
-}
-
-const columns = computed(() => {
-  const columns: Map<string, string> = new Map()
-
-  for (const row of rows.value) {
-    Object.keys(row).forEach(key => {
-      const label = keyToLabel(key)
-      columns.set(key, label)
-    })
-  }
-
-  const namedColumns = columns.entries().map(([key, label]) => {
-    return { key, label }
-  }).toArray()
-
-  return [
-    ...namedColumns,
-    {
-      key: 'actions'
-    }
-  ]
-})
+const columns = usePagingDataColumns(rows)
 
 const currentPage = useState(() => 1)
 function tryRefreshCurrentPage() {
@@ -89,25 +64,6 @@ const { history: currentPageHistory } = useRefHistory(currentPage, {
 const recentKeys = computed(() => {
   return currentPageHistory.value.map(record => {
     return record.snapshot
-  })
-})
-
-const currentPagePagedData = computed(() => {
-  return pagedData.value.filter(([key]) => {
-    return key === currentPage.value
-  })
-})
-
-const rows = computed(() => {
-  const pagedDataValue = currentPagePagedData.value
-  // const pagedDataValue = pagedData.value
-  return pagedDataValue.flatMap(([key, page]) => {
-    return hasData(page) ? page.data.data.map(dataItem => {
-      return {
-        "page_key": key,
-        ...dataItem,
-      }
-    }) : []
   })
 })
 
