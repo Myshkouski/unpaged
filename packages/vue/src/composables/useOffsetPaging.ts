@@ -1,31 +1,35 @@
 import { watch, type Ref } from "vue"
-import type { usePagingData } from "./usePagingData"
 
 export function useOffsetPaging<TKey extends number, TData, TMetadata>(options: UsePageLoaderOptions<TKey, TData, TMetadata>) {
-  const { page, load, data, invalidate, preload, unload } = options
+  const { page, keys, preload, validate } = options
 
   watch(page, async page => {
-    const invalidKeys = unload ? [...data.value.keys()].filter(key => {
-      return unload(key, page)
+    const invalidKeys = validate ? [...keys.value.values()].filter(key => {
+      return !validate(key, page)
     }) : undefined
-    if (invalidKeys && invalidKeys.length > 0) {
-      invalidate(...invalidKeys)
+    
+    if (invalidKeys && invalidKeys?.length > 0) {
+      for (const key of invalidKeys) {
+        keys.value.delete(key)
+      }
     }
 
     const prefetched = preload ? preload(page) : undefined
     if (prefetched && prefetched.length > 0) {
-      await load(page, ...prefetched)
+      for (const key of prefetched) {
+        keys.value.add(key)
+      }
     }
   }, {
     immediate: true,
   })
 }
 
-export type UsePageLoaderOptions<K, T, M> =
-  Pick<ReturnType<typeof usePagingData<K, T, M>>, "data" | "load" | "invalidate"> &
-  {
+export type UsePageLoaderOptions<K, T, M> = {
+    keys: Ref<Set<K>>
     page: Ref<K>
     // prefetch?: (key: K, page: Page<T, M>) => number[]
     preload?: (key: K) => Optional<K[]>
-    unload?: (currentKey: K, key: K) => boolean
+    // unload?: (currentKey: K, key: K) => boolean
+    validate?: (currentKey: K, key: K) => boolean
   }
