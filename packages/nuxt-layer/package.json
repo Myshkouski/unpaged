@@ -12,7 +12,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@unpaged/vue": "^0.0.6",
+    "@unpaged/vue": "workspace:*",
     "nuxt": "^3.15.1"
   },
   "devDependencies": {
