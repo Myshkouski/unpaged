@@ -2,7 +2,7 @@
   "name": "@unpaged/vue",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "version": "0.1.0",
+  "version": "0.0.6",
   "dependencies": {
     "@unpaged/core": "workspace:*",
     "vue": "^3.5.13"

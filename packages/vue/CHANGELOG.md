@@ -3,17 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [0.1.0](https://github.com/Myshkouski/unpaged/compare/v0.0.6...v0.1.0) (2025-02-10)
-
-
-### Bug Fixes
-
-* invalidate data instead of keys ([cdcbd47](https://github.com/Myshkouski/unpaged/commit/cdcbd47e730422d96ef52fd47de5d2cf8b8bc884))
-
-
-
-
-
 ## [0.0.6](https://github.com/Myshkouski/unpaged/compare/v0.0.5...v0.0.6) (2025-01-20)
 
 **Note:** Version bump only for package @unpaged/vue

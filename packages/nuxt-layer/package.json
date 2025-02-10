@@ -1,7 +1,7 @@
 {
   "name": "@unpaged/nuxt-layer",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.0.6",
   "main": "./nuxt.config.ts",
   "scripts": {
     "postinstall": "nuxt prepare",
