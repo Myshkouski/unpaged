@@ -1,5 +1,5 @@
 import { computed, toValue, watch, type MaybeRefOrGetter, type ToRefs } from "vue"
-import type { PagingDataSourceState } from "@unpaged/core/dist/PagingDataSourceState"
+import type { PagingDataSourceState } from "@unpaged/core"
 import { VuePagingDataSource, type VuePagingDataSourceActions } from "./VuePagingDataSource"
 
 export function usePagingDataSource<TKey, TData, TMetadata>(
@@ -7,8 +7,8 @@ export function usePagingDataSource<TKey, TData, TMetadata>(
   options: UsePagingDataSourceOptions<TKey, TData, TMetadata>
 ) {
   const datasource = new VuePagingDataSource<TKey, TData, Optional<TMetadata>>({
-    async load(key: TKey) {
-      return await options.load(key)
+    async loadPage(key: TKey) {
+      return await options.page(key)
     },
     getPageMetadata(key, data) {
       if (!options.metadata) return
@@ -18,7 +18,7 @@ export function usePagingDataSource<TKey, TData, TMetadata>(
   })
 
   watch(options.keys, async (keys) => {
-    await datasource.refresh(toValue(keys))
+    await datasource.load(toValue(keys))
   }, {
     immediate: true
   })
@@ -26,15 +26,21 @@ export function usePagingDataSource<TKey, TData, TMetadata>(
   return {
     pages: computed(() => state.pages.value),
     pending: computed(() => state.isPending.value),
-    async refresh() {
-      await datasource.refresh(toValue(options.keys))
+    async load() {
+      await datasource.load(toValue(options.keys))
+    },
+    async refresh(keys: TKey[]) {
+      await datasource.refresh(keys)
+    },
+    invalidate(keys: TKey[]) {
+      datasource.invalidate(keys)
     },
   }
 }
 
 export type UsePagingDataSourceHooks<TKey, TData, TMetadata> =
-  Pick<VuePagingDataSourceActions<TKey, TData, TMetadata>, "load" > &
   {
+    page: VuePagingDataSourceActions<TKey, TData, TMetadata>["loadPage"]
     metadata?: VuePagingDataSourceActions<TKey, TData, TMetadata>["getPageMetadata"]
   }
 

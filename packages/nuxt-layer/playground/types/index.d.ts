@@ -1,1 +1,1 @@
-type ArrayElement<T> = T extends (infer U)[] ? U : never;
+type ArrayElement<T> = T extends (infer U)[] ? U : never

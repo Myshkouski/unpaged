@@ -6,7 +6,7 @@ export function usePagingDataKeys<K, I extends Iterable<K>>(keys: MaybeRefOrGett
   return computed(() => {
     return compareFn
       ? keyArray.value.toSorted(compareFn)
-      : keyArray.value;
+      : keyArray.value
   })
 }
 

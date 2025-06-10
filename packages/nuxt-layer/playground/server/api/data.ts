@@ -1,11 +1,20 @@
 import { z } from "zod"
 
 const querySchema = z.object({
-  start: z.coerce.number(),
+  page: z.coerce.number(),
   size: z.coerce.number(),
-})
+}).or(
+  z.object({
+    afterId: z.coerce.number().optional(),
+    size: z.coerce.number(),
+  })
+)
 
 export default defineEventHandler(async (event) => {
-  const { start, size } = await getValidatedQuery(event, async query => await querySchema.parseAsync(query))
-  return getData(start, size)
+  const queryParams = await getValidatedQuery(event, async query => await querySchema.parseAsync(query))
+  if ("page" in queryParams) {
+    return getDataByPage(queryParams.page, queryParams.size)
+  } else {
+    return getDataFromId(queryParams.afterId, queryParams.size)
+  }
 })

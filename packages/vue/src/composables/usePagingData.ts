@@ -1,6 +1,6 @@
-import { ref, type Ref, computed } from "vue";
-import { usePagingDataSource } from "./usePagingDataSource";
-import type { UsePagingDataSourceHooks } from "./internal/usePagingDataSource";
+import { ref, type Ref, computed } from "vue"
+import { usePagingDataSource } from "./usePagingDataSource"
+import type { UsePagingDataSourceHooks } from "./internal/usePagingDataSource"
 
 export function usePagingData<TKey, TData, TMetadata>(options: UsePagingDataOptions<TKey, TData, TMetadata>) {
   const keys = options.keys ?? (ref(new Set()) as Ref<Set<TKey>>)
@@ -8,9 +8,9 @@ export function usePagingData<TKey, TData, TMetadata>(options: UsePagingDataOpti
     return [...keys.value]
   })
 
-  const { pages, pending } = usePagingDataSource<TKey, TData, TMetadata>({
+  const { pages, pending, refresh: _refresh, invalidate: _invalidate } = usePagingDataSource<TKey, TData, TMetadata>({
     keys: keysArray,
-    load: options.load,
+    page: options.page,
     metadata: options.metadata
   })
 
@@ -20,14 +20,19 @@ export function usePagingData<TKey, TData, TMetadata>(options: UsePagingDataOpti
     }
   }
 
+  async function refresh(...values: TKey[]) {
+    await _refresh(values)
+  }
+
   function invalidate(...values: TKey[]) {
     for (const k of values) {
-      keys.value.delete(k)
+      pages.value.delete(k)
     }
   }
 
   return {
     load,
+    refresh,
     invalidate,
     data: computed(() => pages.value),
     pending,

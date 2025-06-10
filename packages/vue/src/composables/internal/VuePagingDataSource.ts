@@ -1,8 +1,8 @@
-import type { ToRefs } from "vue";
-import type { PagingDataSourceActions } from "@unpaged/core/src/PagingDataSourceActions";
-import type { PagesMap } from "@unpaged/core/src/PagesMap";
-import type { PagingDataSourceState } from "@unpaged/core/src/PagingDataSourceState";
-import { AbstractPagingDataSource } from "@unpaged/core/src/AbstractPagingDataSource";
+import type { ToRefs } from "vue"
+import type { PagingDataSourceActions } from "@unpaged/core"
+import type { PagesMap } from "@unpaged/core"
+import type { PagingDataSourceState } from "@unpaged/core"
+import { AbstractPagingDataSource } from "@unpaged/core"
 
 export class VuePagingDataSource<TKey, TData, TMetadata>
 extends AbstractPagingDataSource<TKey, TData, TMetadata> {
@@ -26,8 +26,8 @@ extends AbstractPagingDataSource<TKey, TData, TMetadata> {
     this.options.pages.value = value
   }
 
-  override async load(key: TKey): Promise<TData> {
-    return await this.options.load(key)
+  async loadPage(key: TKey): Promise<TData> {
+    return await this.options.loadPage(key)
   }
 
   override getPageMetadata(key: TKey, data: TData): TMetadata {
@@ -35,7 +35,7 @@ extends AbstractPagingDataSource<TKey, TData, TMetadata> {
   }
 }
 
-export type VuePagingDataSourceActions<TKey, TData, TMetadata> = Omit<PagingDataSourceActions<TKey, TData, TMetadata>, "refresh" >
+export type VuePagingDataSourceActions<TKey, TData, TMetadata> = Omit<PagingDataSourceActions<TKey, TData, TMetadata>, "load" | "refresh" | "invalidate" >
 
 export type VuePagingDataSourceOptions<TKey, TData, TMetadata> =
   VuePagingDataSourceActions<TKey, TData, TMetadata> &

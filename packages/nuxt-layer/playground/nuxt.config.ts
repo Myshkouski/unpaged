@@ -7,7 +7,6 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui'
   ],
-
   eslint: {
     config: {
       // Use the generated ESLint config for lint root project as well

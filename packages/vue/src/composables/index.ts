@@ -1,4 +1,5 @@
 export * from "./usePages"
 export * from "./usePagingData"
+export * from "./usePagingMeta"
 export * from "./usePagingDataSource"
-export * from "./usePageLoader"
+export * from "./useOffsetPaging"
