@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.12](https://github.com/Myshkouski/unpaged/compare/v0.0.11...v0.0.12) (2025-06-10)
+
+
+### Bug Fixes
+
+* useOffsetPaging options ([ac9a37b](https://github.com/Myshkouski/unpaged/commit/ac9a37b21788bd1ffd7f10feee5d8bd79daeda73))
+
+
+
+
+
 ## [0.0.6](https://github.com/Myshkouski/unpaged/compare/v0.0.5...v0.0.6) (2025-01-20)
 
 
