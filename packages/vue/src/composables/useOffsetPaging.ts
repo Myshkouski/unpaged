@@ -8,7 +8,7 @@ export function useOffsetPaging<TKey extends number, TData, TMetadata>(options: 
       return !validate(key, page)
     }) : undefined
     
-    if (invalidKeys && invalidKeys?.length > 0) {
+    if (invalidKeys && invalidKeys.length > 0) {
       for (const key of invalidKeys) {
         keys.value.delete(key)
       }
@@ -31,5 +31,5 @@ export type UsePageLoaderOptions<K, T, M> = {
     // prefetch?: (key: K, page: Page<T, M>) => number[]
     preload?: (key: K) => Optional<K[]>
     // unload?: (currentKey: K, key: K) => boolean
-    validate?: (currentKey: K, key: K) => boolean
+    validate?: (key: K, currentKey: K) => boolean
   }

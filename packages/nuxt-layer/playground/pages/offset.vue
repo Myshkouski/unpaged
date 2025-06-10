@@ -77,10 +77,11 @@ const total = computed(() => {
 })
 
 useOffsetPaging({
+  keys,
   page: currentPage,
-  data: pages,
-  load: loadPage,
-  invalidate: invalidatePage,
+  validate(key) {
+    return recentKeys.value.includes(key)
+  },
   preload(key) {
     const recentKeysValue = recentKeys.value
     let additionalKeys: number[] = []
@@ -93,9 +94,6 @@ useOffsetPaging({
     const allUniqueKeys = new Set([...recentKeysValue, ...additionalKeys])
     return [...allUniqueKeys.values()]
   },
-  unload(key, currentKey) {
-    return Math.abs(key - currentKey) > 1
-  }
 })
 
 </script>
