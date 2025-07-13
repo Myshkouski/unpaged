@@ -24,7 +24,7 @@ export function usePagingDataSource<TKey, TData, TMetadata>(
   })
 
   return {
-    pages: computed(() => state.pages.value),
+    pages: computed(() => datasource.pages),
     pending: computed(() => state.isPending.value),
     async load() {
       await datasource.load(toValue(options.keys))
