@@ -5,7 +5,7 @@ import type { PagingDataSource } from "./PagingDataSource"
 export abstract class AbstractPagingDataSource<TKey, TData, TMetadata>
 implements PagingDataSource<TKey, TData, TMetadata> {
   abstract get isPending(): boolean
-  abstract set isPending(value)
+  protected abstract set isPending(value)
 
   protected abstract readonly pageStore: PageStore<TKey, TData, TMetadata> 
 
