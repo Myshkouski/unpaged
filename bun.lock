@@ -18,7 +18,7 @@
       "name": "@unpaged/nuxt-layer",
       "version": "0.0.12",
       "dependencies": {
-        "@unpaged/vue": "workspace:*",
+        "@unpaged/vue": "workspace:^",
         "nuxt": "^3",
       },
       "devDependencies": {
@@ -39,7 +39,7 @@
       "name": "@unpaged/vue",
       "version": "0.0.12",
       "dependencies": {
-        "@unpaged/core": "workspace:*",
+        "@unpaged/core": "workspace:^",
         "vue": "^3.5.13",
       },
       "devDependencies": {
