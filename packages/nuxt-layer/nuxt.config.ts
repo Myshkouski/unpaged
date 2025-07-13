@@ -7,7 +7,6 @@ export default defineNuxtConfig({
       {
         from: "@unpaged/vue",
         imports: [
-          "usePages",
           "usePagingData",
           "usePagingMeta",
           "usePagingDataSource",

@@ -1,4 +1,3 @@
-export * from "./usePages"
 export * from "./usePagingData"
 export * from "./usePagingMeta"
 export * from "./usePagingDataSource"
