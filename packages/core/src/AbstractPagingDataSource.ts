@@ -1,25 +1,24 @@
 import type { Page } from "./Page"
-import type { PagesMap } from "./PagesMap"
+import type { PageStore } from "./PageStore"
 import type { PagingDataSource } from "./PagingDataSource"
 
 export abstract class AbstractPagingDataSource<TKey, TData, TMetadata>
 implements PagingDataSource<TKey, TData, TMetadata> {
   abstract get isPending(): boolean
-  abstract set isPending(value)
+  protected abstract set isPending(value)
 
-  abstract get pages(): PagesMap<TKey, TData, TMetadata>
-  abstract set pages(value)
+  protected abstract readonly pageStore: PageStore<TKey, TData, TMetadata> 
 
   private promise: Promise<[TKey, Page<TData, TMetadata>][]> = Promise.resolve([])
 
-  abstract loadPage(key: TKey): Promise<TData>
+  abstract loadData(key: TKey): Promise<TData>
   abstract getPageMetadata(key: TKey, data: TData): TMetadata
 
   private async tryLoadData(key: TKey): Promise<[TKey, Page<TData, TMetadata>]> {
     let page: Page<TData, TMetadata>
 
     try {
-      const data = await this.loadPage(key)
+      const data = await this.loadData(key)
       const metadata = this.getPageMetadata(key, data)
       page = { data, metadata }
     } catch (e) {
@@ -29,14 +28,15 @@ implements PagingDataSource<TKey, TData, TMetadata> {
     return [key, page]
   }
 
-  private tryGetCached(key: TKey): [TKey, Page<TData, TMetadata>] | undefined {
-    if (this.pages.has(key)) {
-      return [key, this.pages.get(key) as Page<TData, TMetadata>]
+  private async tryGetCached(key: TKey): Promise<[TKey, Page<TData, TMetadata>] | undefined> {
+    const page = await this.pageStore.find(key)
+    if (page) {
+      return [key, page]
     }
   }
 
   private async tryGetCachedOrLoad(key: TKey): Promise<[TKey, Page<TData, TMetadata>]> {
-    let page = this.tryGetCached(key)
+    let page = await this.tryGetCached(key)
     if (!page) {
       page = await this.tryLoadData(key)
     }
@@ -60,11 +60,11 @@ implements PagingDataSource<TKey, TData, TMetadata> {
       const newEntries = await this.promise
 
       if (options.clearState) {
-        this.pages.clear()
+        await this.pageStore.clear()
       }
       
       for (const [key, page] of newEntries) {
-        this.pages.set(key, page)
+        await this.pageStore.set(key, page)
       }
     } catch (e) {
       //
@@ -81,8 +81,11 @@ implements PagingDataSource<TKey, TData, TMetadata> {
   }
 
   async refresh(keys: TKey[]): Promise<void> {
-    const loadedKeys = keys.filter(key => {
-      return this.pages.has(key)
+    const hasPages = await this.pageStore.has(keys)
+    const loadedKeys = hasPages.filter(([key, loaded]) => {
+      return loaded
+    }).map(([key]) => {
+      return key
     })
     await this.tryLoad(loadedKeys, {
       skipCache: true,
@@ -90,9 +93,7 @@ implements PagingDataSource<TKey, TData, TMetadata> {
     })
   }
 
-  invalidate(keys: TKey[]) {
-    for (const key of keys) {
-      this.pages.delete(key)
-    }
+  async invalidate(keys: TKey[]) {
+    await this.pageStore.remove(keys)
   }
 }

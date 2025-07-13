@@ -1,5 +1,6 @@
 export * from "./Page"
-export * from "./PagesMap"
+export * from "./PageStore"
+export * from "./InMemoryPageStore"
 export * from "./PagingDataSourceState"
 export * from "./PagingDataSourceActions"
 export * from "./PagingDataSource"
