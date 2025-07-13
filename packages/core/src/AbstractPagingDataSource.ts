@@ -12,14 +12,14 @@ implements PagingDataSource<TKey, TData, TMetadata> {
 
   private promise: Promise<[TKey, Page<TData, TMetadata>][]> = Promise.resolve([])
 
-  abstract loadPage(key: TKey): Promise<TData>
+  abstract loadData(key: TKey): Promise<TData>
   abstract getPageMetadata(key: TKey, data: TData): TMetadata
 
   private async tryLoadData(key: TKey): Promise<[TKey, Page<TData, TMetadata>]> {
     let page: Page<TData, TMetadata>
 
     try {
-      const data = await this.loadPage(key)
+      const data = await this.loadData(key)
       const metadata = this.getPageMetadata(key, data)
       page = { data, metadata }
     } catch (e) {

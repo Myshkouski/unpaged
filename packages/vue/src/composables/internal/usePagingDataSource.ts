@@ -7,7 +7,7 @@ export function usePagingDataSource<TKey, TData, TMetadata>(
   options: UsePagingDataSourceOptions<TKey, TData, TMetadata>
 ) {
   const datasource = new VuePagingDataSource<TKey, TData, Optional<TMetadata>>({
-    async loadPage(key: TKey) {
+    async loadData(key: TKey) {
       return await options.page(key)
     },
     getPageMetadata(key, data) {
@@ -40,7 +40,7 @@ export function usePagingDataSource<TKey, TData, TMetadata>(
 
 export type UsePagingDataSourceHooks<TKey, TData, TMetadata> =
   {
-    page: VuePagingDataSourceActions<TKey, TData, TMetadata>["loadPage"]
+    page: VuePagingDataSourceActions<TKey, TData, TMetadata>["loadData"]
     metadata?: VuePagingDataSourceActions<TKey, TData, TMetadata>["getPageMetadata"]
   }
 

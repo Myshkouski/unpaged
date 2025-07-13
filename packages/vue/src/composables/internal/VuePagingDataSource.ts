@@ -26,8 +26,8 @@ extends AbstractPagingDataSource<TKey, TData, TMetadata> {
     this.options.pages.value = value
   }
 
-  async loadPage(key: TKey): Promise<TData> {
-    return await this.options.loadPage(key)
+  async loadData(key: TKey): Promise<TData> {
+    return await this.options.loadData(key)
   }
 
   override getPageMetadata(key: TKey, data: TData): TMetadata {
