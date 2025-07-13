@@ -1,14 +1,17 @@
-import { z } from "zod"
+import { z } from "zod/mini"
 
-const querySchema = z.object({
-  page: z.coerce.number(),
-  size: z.coerce.number(),
-}).or(
+const querySchema = z.union([
   z.object({
-    afterId: z.coerce.number().optional(),
+    page: z.coerce.number(),
+    size: z.coerce.number(),
+  }),
+  z.object({
+    afterId: z.optional(
+      z.coerce.number()
+    ),
     size: z.coerce.number(),
   })
-)
+])
 
 export default defineEventHandler(async (event) => {
   const queryParams = await getValidatedQuery(event, async query => await querySchema.parseAsync(query))
